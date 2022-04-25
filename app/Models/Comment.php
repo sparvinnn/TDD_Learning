@@ -10,6 +10,21 @@ class Comment extends Model
     use HasFactory;
 
     protected $fillable = [
+        'commentable_id',
+        'commentable_type',
+        'user_id',
         'text'
     ];
+
+    public function post(){
+        return $this->belongsTo(Post::class);
+    }
+
+    public function commentable(){
+        return $this->morphTo();
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }
