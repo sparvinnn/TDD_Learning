@@ -5,6 +5,7 @@ namespace Tests\Feature\Models;
 use App\Models\Comment;
 use App\Models\Tag;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -12,18 +13,12 @@ use App\Models\Post;
 
 class PostTest extends TestCase
 {
-    use RefreshDatabase;
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function test_insert_data()
-    {
-        $data = Post::factory()->make()->toArray();
-        Post::create($data);
+    use RefreshDatabase,
+        ModelHelperTesting;
 
-        $this->assertDatabaseHas('posts', $data);
+    protected function model(): Model
+    {
+        return new Post();
     }
 
     public function test_post_relationship_with_user(){
@@ -59,4 +54,6 @@ class PostTest extends TestCase
         $this->assertCount($count, $post->comments);
         $this->assertTrue($post->comments->first() instanceof Comment);
     }
+
+
 }
